@@ -10,6 +10,7 @@
 
 import Test
 import AsyncDispatch
+@testable import Async
 @testable import TestUtils
 @testable import TarantoolConnector
 
@@ -20,7 +21,7 @@ class IProtoIndexTests: TestCase {
 
     override func setUp() {
         do {
-            AsyncDispatch().registerGlobal()
+            async.setUp(Dispatch.self)
             tarantool = try TarantoolProcess(with: """
                 box.schema.user.grant('guest', 'read,write,execute', 'universe')
                 box.schema.user.passwd('admin', 'admin')
@@ -579,29 +580,4 @@ class IProtoIndexTests: TestCase {
             fail(String(describing: error))
         }
     }
-
-
-    static var allTests = [
-        ("testHash", testHash),
-        ("testTree", testTree),
-        ("testRTree", testRTree),
-        ("testBitset", testBitset),
-        ("testSequence", testSequence),
-        ("testMany", testMany),
-        ("testCount", testCount),
-        ("testSelect", testSelect),
-        ("testGet", testGet),
-        ("testInsert", testInsert),
-        ("testReplace", testReplace),
-        ("testDelete", testDelete),
-        ("testUpdate", testUpdate),
-        ("testUpsert", testUpsert),
-        ("testUnsignedPartType", testUnsignedPartType),
-        ("testIntegerPartType", testIntegerPartType),
-        ("testNumberPartType", testNumberPartType),
-        ("testStringPartType", testStringPartType),
-        ("testBooleanPartType", testBooleanPartType),
-        ("testArrayPartType", testArrayPartType),
-        ("testScalarPartType", testScalarPartType),
-    ]
 }

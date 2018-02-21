@@ -10,6 +10,7 @@
 
 import Test
 import AsyncDispatch
+@testable import Async
 @testable import TestUtils
 @testable import TarantoolConnector
 
@@ -20,7 +21,7 @@ class IProtoDataSourceTests: TestCase {
 
     override func setUp() {
         do {
-            AsyncDispatch().registerGlobal()
+            async.setUp(Dispatch.self)
             tarantool = try TarantoolProcess(with: """
                 box.schema.user.grant('guest', 'read,write,execute', 'universe')
                 local test = box.schema.space.create('test')
@@ -160,16 +161,4 @@ class IProtoDataSourceTests: TestCase {
             fail(String(describing: error))
         }
     }
-
-
-    static var allTests = [
-        ("testCount", testCount),
-        ("testSelect", testSelect),
-        ("testGet", testGet),
-        ("testInsert", testInsert),
-        ("testReplace", testReplace),
-        ("testDelete", testDelete),
-        ("testUpdate", testUpdate),
-        ("testUpsert", testUpsert),
-    ]
 }

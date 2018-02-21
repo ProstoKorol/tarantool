@@ -10,6 +10,7 @@
 
 import Test
 import AsyncDispatch
+@testable import Async
 import TarantoolConnector
 @testable import TestUtils
 
@@ -23,7 +24,7 @@ class BoxTupleTests: TestCase {
 
     override func setUp() {
         do {
-            AsyncDispatch().registerGlobal()
+            async.setUp(Dispatch.self)
             guard let module = Module("TarantoolModuleTest").path else {
                 fail("can't find swift module")
                 return
@@ -63,9 +64,4 @@ class BoxTupleTests: TestCase {
             fail(String(describing: error))
         }
     }
-
-
-    static var allTests = [
-        ("testUnpackTuple", testUnpackTuple),
-    ]
 }

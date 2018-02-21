@@ -10,14 +10,18 @@
 
 import Test
 import AsyncDispatch
+@testable import Async
 @testable import TestUtils
 
 import class Foundation.FileManager
 
 class TestUtilsTests: TestCase {
+    override func setUp() {
+        async.setUp(Dispatch.self)
+    }
+
     func testTarantoolProcess() {
         do {
-            AsyncDispatch().registerGlobal()
             let tarantool = try TarantoolProcess()
             assertEqual(tarantool.isRunning, false)
             
@@ -51,11 +55,4 @@ class TestUtilsTests: TestCase {
         }
         assertTrue(FileManager.default.fileExists(atPath: path))
     }
-
-
-    static var allTests = [
-        ("testTarantoolProcess", testTarantoolProcess),
-        ("testTempFolder", testTempFolder),
-        ("testModulePath", testModulePath),
-    ]
 }

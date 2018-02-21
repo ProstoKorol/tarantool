@@ -10,6 +10,7 @@
 
 import Test
 import AsyncDispatch
+@testable import Async
 import TarantoolConnector
 @testable import TestUtils
 
@@ -31,7 +32,7 @@ class BoxSpaceTests: TestCase {
 
     override func setUp() {
         do {
-            AsyncDispatch().registerGlobal()
+            async.setUp(Dispatch.self)
             guard let module = Module("TarantoolModuleTest").path else {
                 fail("can't find swift module")
                 return
@@ -143,17 +144,4 @@ class BoxSpaceTests: TestCase {
             fail(String(describing: error))
         }
     }
-
-
-    static var allTests = [
-        ("testCount", testCount),
-        ("testSelect", testSelect),
-        ("testGet", testGet),
-        ("testInsert", testInsert),
-        ("testReplace", testReplace),
-        ("testDelete", testDelete),
-        ("testUpdate", testUpdate),
-        ("testUpsert", testUpsert),
-        ("testSequence", testSequence),
-    ]
 }

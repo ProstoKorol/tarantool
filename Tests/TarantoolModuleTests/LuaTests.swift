@@ -10,6 +10,7 @@
 
 import Test
 import AsyncDispatch
+@testable import Async
 import TarantoolConnector
 @testable import TestUtils
 
@@ -27,7 +28,7 @@ class LuaTests: TestCase {
 
     override func setUp() {
         do {
-            AsyncDispatch().registerGlobal()
+            async.setUp(Dispatch.self)
             guard let module = Module("TarantoolModuleTest").path else {
                 fail("can't find swift module")
                 return
@@ -103,13 +104,4 @@ class LuaTests: TestCase {
             fail(String(describing: error))
         }
     }
-
-
-    static var allTests = [
-        ("testEval", testEval),
-        ("testPushPop", testPushPop),
-        ("testPushPopMany", testPushPopMany),
-        ("testPushPopArray", testPushPopArray),
-        ("testPushPopMap", testPushPopMap),
-    ]
 }
